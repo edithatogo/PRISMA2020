@@ -1,4 +1,4 @@
-FROM rocker/shiny:latest
+FROM rocker/shiny:latest@sha256:ca9c2772c5fe7907e8cf27f5778a34673851d6e22e34ad136e9f517f873061b7
 
 LABEL maintainer="Hossam Hammady <hossam@rayyan.ai>"
 
