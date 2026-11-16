@@ -40,7 +40,12 @@ jobs:
     outputs:
       triggered: ${{ steps.check-pr.outputs.triggered }}
     steps:
-      - uses: khan/pull-request-comment-trigger@v1.1.0
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        with:
+          egress-policy: audit
+
+      - uses: khan/pull-request-comment-trigger@edab8d9ba7759221187ef7120592a6fbfada0d18 # v1.1.0
         id: check-pr
         with:
           trigger: '!deploy'
@@ -55,9 +60,14 @@ jobs:
       repository: ${{ fromJson(steps.get-repo.outputs.data).head.repo.full_name }}
       ref: ${{ fromJson(steps.get-repo.outputs.data).head.ref }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        with:
+          egress-policy: audit
+
       - name: get-pull-request-ref
         id: get-repo
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@02f5e7c637a73a3b12ed81015fa7fb5f11cc5d7d # v2.x
         with:
           route: GET /repos/:repository/pulls/:issue_id
           repository: ${{ github.repository }}
